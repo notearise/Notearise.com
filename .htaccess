@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteRule ^([a-zA-Z0-9_-]+)$ profile.php?profile_username=$1
+RewriteRule ^([a-zA-Z0-9_-]+)/$ profile.php?profile_username=$1
+Options +FollowSymLinks +SymLinksIfOwnerMatch
+
+# This allows you to redirect your entire website to any other domain
+Redirect 301 /twitter		http://twitter.com/notearise
+Redirect 301 /facebook		http://facebook.com/notearise
+Redirect 301 /instagram		http://instagram.com/notearise
+Redirect 301 /linkedin		https://www.linkedin.com/company/notearise
+Redirect 301 /gizmo			https://invis.io/6J6VRY4SY
+Redirect 301 /jira			http://notearise.atlassian.net

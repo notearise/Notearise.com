@@ -1,0 +1,141 @@
+/* Global UI */
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  /* border: 1px solid green; */
+}
+
+/*| PAGE LAYOUT |*/
+html, body {
+  height: 100%;
+  width: 100%;
+  /*text-align: center;*/ /*IE doesn't ~like this*/
+  cursor: default;
+  font-family: 'Montserrat', sans-serif;
+  color: #fee4ab;
+}
+
+#everything #top {
+  background: #e42d54; /* All esle fails */
+  background: -webkit-linear-gradient(left top, #e42d54, #f37746); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #e42d54, #f37746); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #e42d54, #f37746); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #e42d54, #f37746); /* Standard syntax */
+  position: relative;
+}
+
+#everything #top .logo, #everything #top .content {
+  /* border: 2px solid blue; */
+  max-width: 944px;
+  width: 944px;
+  margin: auto;
+}
+
+#everything #top .logo {
+  padding-top: 10%;
+}
+
+#everything #top .logo h1 {
+  width: 130px !important;
+  height: 20px !important;
+  font: 0/0 a !important;
+  background: url(notearise-logo.svg) no-repeat !important;
+  text-align: right !important;
+  display: block !important;
+  float: right !important;
+  clear: both !important;
+}
+
+#everything #top .logo, #everything #top .content {
+  /* border: 2px solid blue; */
+  max-width: 944px;
+  width: 944px;
+  margin: auto;
+}
+
+#everything #top .content h2 {
+  font-size: 69px;
+  color: #ffffff;
+}
+
+#everything #top .content .copy {
+  padding-top: 2em;
+  display: block;
+}
+
+#everything #top .content form {
+  padding: 2em 0 12em 0;
+  display: block;
+  width: 100%;
+}
+
+#everything #top .content form fieldset {
+  border: 0px;
+}
+
+#everything #top .content form fieldset legend {
+  display: none;
+  visibility: hidden;
+}
+
+#everything #top .content form input {
+  width: 285px;
+  height: 60px;
+  border: 2px solid #999999;
+  font-family: 'Montserrat', sans-serif;
+  display: block;
+  color: #999999;
+  font-size: 1em;
+  text-align: center;
+}
+
+#everything #top .content form fieldset button {
+  width: 285px;
+  height: 60px;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  color: #fee4ab;
+  font-size: 1em;
+  text-align: center;
+  background: none;
+  border: 0px;
+}
+
+#everything #bottom {
+  background: #ffffff; /* All esle fails */
+  position: relative;
+}
+
+#everything #bottom footer {
+  /* border: 2px solid pink; */
+  max-width: 944px;
+  width: 944px;
+  margin: auto;
+  text-align: right;
+  padding: 2em 0 2em 0;
+}
+
+#everything #bottom footer nav {
+  color: #e52d54;
+  font-size: 12px;
+}
+
+#everything #bottom footer nav a {
+  text-decoration: none;
+  color: #e52d54;
+  padding-left: 20px;
+}
+
+#everything #bottom footer nav li {
+  display: inline;
+  list-style-type: disc;
+}
+
+#everything #bottom footer copy {
+  color: #999999;
+  font-size: 12px;
+}
