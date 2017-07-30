@@ -1,11 +1,11 @@
 <?php
 
     //
-    include('includes/header.php');
-    include('includes/form_handlers/settings_handler.php');
+    include("_includes/header.php");
+    include("_includes/form_handlers/settings_handler.php");
 
     //
-    // include("includes/settings.php");
+    // include("_includes/settings.php");
 
 ?>
 

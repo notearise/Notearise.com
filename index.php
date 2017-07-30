@@ -1,5 +1,5 @@
 <?php
-include("includes/header.php");
+include("_includes/header.php");
 if(isset($_POST['post'])){
 	$post = new Post($con, $userLoggedIn);
 	$post->submitPost($_POST['post_text'], 'none');
@@ -34,7 +34,7 @@ if(isset($_POST['post'])){
 		</form>
 
 		<div class="posts_area"></div>
-		<img id="loading" src="assets/images/icons/loading.gif">
+		<img id="loading" src="_assets/images/icons/loading.gif">
 
 	</div>
 
@@ -70,7 +70,7 @@ if(isset($_POST['post'])){
 		$('#loading').show();
 		//Original ajax request for loading first posts
 		$.ajax({
-			url: "includes/handlers/ajax_load_posts.php",
+			url: "_includes/handlers/ajax_load_posts.php",
 			type: "POST",
 			data: "page=1&userLoggedIn=" + userLoggedIn,
 			cache:false,
@@ -87,7 +87,7 @@ if(isset($_POST['post'])){
 			if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
 				$('#loading').show();
 				var ajaxReq = $.ajax({
-					url: "includes/handlers/ajax_load_posts.php",
+					url: "_includes/handlers/ajax_load_posts.php",
 					type: "POST",
 					data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
 					cache:false,

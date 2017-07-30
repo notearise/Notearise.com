@@ -16,7 +16,7 @@
 	<?php
 	require '_config/config.php';
 	include("_includes/classes/User.php");
-	include("_includes/classes/Post.php");
+	include("_includes/classes/Note.php");
 	include("_includes/classes/Notification.php");
 
 	if (isset($_SESSION['username'])) {
@@ -41,37 +41,37 @@
 	</script>
 
 	<?php
-	//Get id of post
-	if(isset($_GET['post_id'])) {
-		$post_id = $_GET['post_id'];
+	//Get id of note
+	if(isset($_GET['note_id'])) {
+		$note_id = $_GET['note_id'];
 	}
 
-	$user_query = mysqli_query($con, "SELECT added_by, user_to FROM posts WHERE id='$post_id'");
+	$user_query = mysqli_query($con, "SELECT added_by, user_to FROM notes WHERE id='$note_id'");
 	$row = mysqli_fetch_array($user_query);
 
 	$posted_to = $row['added_by'];
 	$user_to = $row['user_to'];
 
-	if(isset($_POST['postComment' . $post_id])) {
-		$post_body = $_POST['post_body'];
-		$post_body = mysqli_escape_string($con, $post_body);
+	if(isset($_POST['noteComment' . $note_id])) {
+		$note_body = $_POST['note_body'];
+		$note_body = mysqli_escape_string($con, $note_body);
 		$date_time_now = date("Y-m-d H:i:s");
-		$insert_post = mysqli_query($con, "INSERT INTO comments VALUES (NULL, '$post_body', '$userLoggedIn', '$posted_to', '$date_time_now', 'no', '$post_id')");
+		$insert_note = mysqli_query($con, "INSERT INTO comments VALUES (NULL, '$note_body', '$userLoggedIn', '$posted_to', '$date_time_now', 'no', '$note_id')");
 
 		//
 		if ($posted_to != $userLoggedIn) {
 			$notification = new Notification($con, $userLoggedIn);
-			$notification->insertNotification($post_id, $posted_to, "comment");
+			$notification->insertNotification($note_id, $posted_to, "comment");
 		}
 
 		//
 		if ($user_to != 'none' && $user_to != $userLoggedIn) {
 			$notification = new Notification($con, $userLoggedIn);
-			$notification->insertNotification($post_id, $user_to, "profile_comment");
+			$notification->insertNotification($note_id, $user_to, "profile_comment");
 		}
 
 		//
-		$get_commenters = mysqli_query($con, "SELECT * FROM comments WHERE post_id = '$post_id'");
+		$get_commenters = mysqli_query($con, "SELECT * FROM comments WHERE note_id = '$note_id'");
 		$notified_users = array();
 
 		//
@@ -80,24 +80,24 @@
 			if($row['posted_by'] != $posted_to && $row['posted_by'] != $user_to && $row['posted_by'] != $userLoggedIn && !in_array($row['posted_by'], $notified_users)) {
 
 				$notification = new Notification($con, $userLoggedIn);
-				$notification->insertNotification($post_id, $row['posted_by'], "comment_non_owner");
+				$notification->insertNotification($note_id, $row['posted_by'], "comment_non_owner");
 
 				array_push($notified_users, $row['posted_by']);
 			}
 		}
 
-		echo "<p>Comment Posted! </p>";
+		echo "<p>Note comment posted! </p>";
 	}
 	?>
-	<form action="comment_frame.php?post_id=<?php echo $post_id; ?>" id="comment_form" name="postComment<?php echo $post_id; ?>" method="POST">
-		<textarea name="post_body"></textarea>
-		<input type="submit" name="postComment<?php echo $post_id; ?>" value="Post">
+	<form action="comment_frame_note.php?note_id=<?php echo $note_id; ?>" id="comment_form" name="noteComment<?php echo $note_id; ?>" method="POST">
+		<textarea name="note_body"></textarea>
+		<input type="submit" name="noteComment<?php echo $note_id; ?>" value="Note">
 	</form>
 
 	<!-- Load comments -->
 
 	<?php
-		$get_comments = mysqli_query($con,"SELECT * FROM comments WHERE post_id = '$post_id' ORDER BY date_added DESC");
+		$get_comments = mysqli_query($con,"SELECT * FROM comments WHERE note_id = '$note_id' ORDER BY date_added DESC");
 		$count = mysqli_num_rows($get_comments);
 
 		if ($count !=0) {
@@ -110,7 +110,7 @@
 
 				// Timeframe - Begin
 				$date_time_now = date("Y-m-d H:i:s");
-				$start_date = new DateTime($date_added); //Time of post
+				$start_date = new DateTime($date_added); //Time of note
 				$end_date = new DateTime($date_time_now); //Current time
 				$interval = $start_date->diff($end_date); //Difference between dates
 				if($interval->y >= 1) {

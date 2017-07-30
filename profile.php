@@ -1,5 +1,5 @@
 <?php
-  include("includes/header.php");
+  include("_includes/header.php");
 
   $message_obj = new Message($con, $userLoggedIn);
 
@@ -56,6 +56,7 @@
 
       <div class="profile_info">
         <p><?php echo "Posts: " . $user_array['num_posts']; ?></p>
+        <p><?php echo "Notes: " . $user_array['num_notes']; ?></p>
         <p><?php echo "Likes: " . $user_array['num_likes']; ?></p>
         <p><?php echo "Friends: " . $num_friends; ?></p>
       </div>
@@ -108,9 +109,11 @@
     <div class="profile_main_column column">
 
       <ul class="nav nav-tabs" role="tablist" id="profileTabs">
+
         <li role="presentation" class="active"><a href="#newsfeed_div" aria-controls="newsfeed_div" role="tab" data-toggle="tab">Newsfeed</a></li>
-        <!--// <li role="presentation"><a href="#about_div" aria-controls="about_div" role="tab" data-toggle="tab">About</a></li>//-->
+        <li role="presentation"><a href="#notes_div" aria-controls="notes_div" role="tab" data-toggle="tab">Notes</a></li>
         <li role="presentation"><a href="#messages_div" aria-controls="messages_div" role="tab" data-toggle="tab">Messages</a></li>
+
       </ul>
 
       <div class="tab-content">
@@ -118,17 +121,17 @@
             <div class="posts_area"></div>
         </div>
 
-        <!--//
-        <div role="tabpanel" class="tab-pane fade" id="about_div">
 
+        <div role="tabpanel" class="tab-pane fade" id="notes_div">
+            <div class="notes_area"></div>
         </div>
-        //-->
+
         <div role="tabpanel" class="tab-pane fade" id="messages_div">
           <?php
 
             echo "<h4>You and <a href='" . $username . "'>" . $profile_user_obj->getFirstAndLastName() . "</a></h4><hr><br>";
             echo "<div class='loaded_messages' id='scroll_messages'>";
-              echo $message_obj->getMessages($username);
+            echo $message_obj->getMessages($username);
             echo "</div>";
 
           ?>
@@ -148,7 +151,7 @@
         </div>
       </div>
 
-      <img id="loading" src="assets/images/icons/loading.gif">
+      <img id="loading" src="_assets/images/icons/loading.gif">
 
       <!-- Modal -->
       <div class="modal fade" id="post_form" tabindex="-1" role="dialog" aria-labelledby="post_modal_label">
@@ -180,46 +183,93 @@
         </div>
       </div>
 
+      <!--// Posts //-->
       <script>
-    	var userLoggedIn = '<?php echo $userLoggedIn; ?>';
-      var profileUsername = '<?php echo $username ?>';
-    	$(document).ready(function() {
-    		$('#loading').show();
-    		//Original ajax request for loading first posts
-    		$.ajax({
-    			url: "includes/handlers/ajax_load_profile_posts.php",
-    			type: "POST",
-    			data: "page=1&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
-    			cache:false,
-    			success: function(data) {
-    				$('#loading').hide();
-    				$('.posts_area').html(data);
-    			}
-    		});
-    		$(window).scroll(function() {
-    			var height = $('.posts_area').height(); //Div containing posts
-    			var scroll_top = $(this).scrollTop();
-    			var page = $('.posts_area').find('.nextPage').val();
-    			var noMorePosts = $('.posts_area').find('.noMorePosts').val();
-    			if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
-    				$('#loading').show();
-    				var ajaxReq = $.ajax({
-    					url: "includes/handlers/ajax_load_profile_posts.php",
-    					type: "POST",
-    					data: "page=" + page + "&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
-    					cache:false,
-    					success: function(response)  {
-    						$('.posts_area').find('.nextPage').remove(); //Removes current .nextpage
-    						$('.posts_area').find('.noMorePosts').remove(); //Removes current .nextpage
-    						$('#loading').hide();
-    						$('.posts_area').append(response);
-    					}
-    				});
-    			} //End if
-    			return false;
-    		}); //End (window).scroll(function())
-    	});
+
+      	var userLoggedIn = '<?php echo $userLoggedIn; ?>';
+        var profileUsername = '<?php echo $username ?>';
+      	$(document).ready(function() {
+      		$('#loading').show();
+      		//Original ajax request for loading first posts
+      		$.ajax({
+      			url: "_includes/handlers/ajax_load_profile_posts.php",
+      			type: "POST",
+      			data: "page=1&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
+      			cache:false,
+      			success: function(data) {
+      				$('#loading').hide();
+      				$('.posts_area').html(data);
+      			}
+      		});
+      		$(window).scroll(function() {
+      			var height = $('.posts_area').height(); //Div containing posts
+      			var scroll_top = $(this).scrollTop();
+      			var page = $('.posts_area').find('.nextPage').val();
+      			var noMorePosts = $('.posts_area').find('.noMorePosts').val();
+      			if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
+      				$('#loading').show();
+      				var ajaxReq = $.ajax({
+      					url: "_includes/handlers/ajax_load_profile_posts.php",
+      					type: "POST",
+      					data: "page=" + page + "&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
+      					cache:false,
+      					success: function(response)  {
+      						$('.posts_area').find('.nextPage').remove(); //Removes current .nextpage
+      						$('.posts_area').find('.noMorePosts').remove(); //Removes current .nextpage
+      						$('#loading').hide();
+      						$('.posts_area').append(response);
+      					}
+      				});
+      			} //End if
+      			return false;
+      		}); //End (window).scroll(function())
+      	});
+
     	</script>
+
+      <!--// Notes //-->
+      <script>
+
+        var userLoggedIn = '<?php echo $userLoggedIn; ?>';
+        var profileUsername = '<?php echo $username ?>';
+        $(document).ready(function() {
+          $('#loading').show();
+          //Original ajax request for loading first posts
+          $.ajax({
+            url: "_includes/handlers/ajax_load_profile_notes.php",
+            type: "POST",
+            data: "page=1&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
+            cache:false,
+            success: function(data) {
+              $('#loading').hide();
+              $('.notes_area').html(data);
+            }
+          });
+          $(window).scroll(function() {
+            var height = $('.notes_area').height(); //Div containing posts
+            var scroll_top = $(this).scrollTop();
+            var page = $('.notes_area').find('.nextPage').val();
+            var noMorePosts = $('.notes_area').find('.noMoreNotes').val();
+            if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) && noMorePosts == 'false') {
+              $('#loading').show();
+              var ajaxReq = $.ajax({
+                url: "_includes/handlers/ajax_load_profile_notes.php",
+                type: "POST",
+                data: "page=" + page + "&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
+                cache:false,
+                success: function(response)  {
+                  $('.notes_area').find('.nextPage').remove(); //Removes current .nextpage
+                  $('.notes_area').find('.noMoreNotes').remove(); //Removes current .nextpage
+                  $('#loading').hide();
+                  $('.notes_area').append(response);
+                }
+              });
+            } //End if
+            return false;
+          }); //End (window).scroll(function())
+        });
+
+      </script>
 
     </div>
 

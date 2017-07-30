@@ -1,7 +1,7 @@
 <?php
 
 	//
-	include('includes/header.php');
+	include("_includes/header.php");
 
 	// Nevermind cancel
 	if(isset($_POST['cancel'])) {

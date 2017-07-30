@@ -1,16 +1,16 @@
  	<?php
-require 'config/config.php';
-require 'includes/form_handlers/register_handler.php';
-require 'includes/form_handlers/login_handler.php';
+require '_config/config.php';
+require '_includes/form_handlers/register_handler.php';
+require '_includes/form_handlers/login_handler.php';
 ?>
 
 
 <html>
 <head>
-	<title>Welcome to Friday!</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/register_style.css">
+	<title>Notearise</title>
+	<link rel="stylesheet" type="text/css" href="_assets/css/register_style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="assets/js/register.js"></script>
+	<script src="_assets/js/register.js"></script>
 </head>
 <body>
 
@@ -20,10 +20,10 @@ require 'includes/form_handlers/login_handler.php';
 		echo '
 		<script>
 
-		$(document).ready(function() {
-			$("#first").hide();
-			$("#second").show();
-		});
+  		$(document).ready(function() {
+  			$("#first").hide();
+  			$("#second").show();
+  		});
 
 		</script>
 
@@ -38,7 +38,7 @@ require 'includes/form_handlers/login_handler.php';
 		<div class="login_box">
 
 			<div class="login_header">
-				<h1>Friday!</h1>
+				<h1>Notearise</h1>
 				Login or sign up below!
 			</div>
 			<br>
@@ -106,9 +106,27 @@ require 'includes/form_handlers/login_handler.php';
 					<br>
 					<input type="password" name="reg_password2" placeholder="Confirm Password" required>
 					<br>
-					<?php if(in_array("Your passwords do not match<br>", $error_array)) echo "Your passwords do not match<br>";
-					else if(in_array("Your password can only contain english characters or numbers<br>", $error_array)) echo "Your password can only contain english characters or numbers<br>";
-					else if(in_array("Your password must be betwen 5 and 30 characters<br>", $error_array)) echo "Your password must be betwen 5 and 30 characters<br>"; ?>
+					<?php
+
+            if(in_array("Your passwords do not match<br>", $error_array)) {
+
+              echo "Your passwords do not match<br>";
+
+            }
+
+            else if(in_array("Your password can only contain english characters or numbers<br>", $error_array)) {
+
+              echo "Your password can only contain english characters or numbers<br>";
+
+            }
+
+            else if(in_array("Your password must be betwen 5 and 30 characters<br>", $error_array)) {
+
+              echo "Your password must be betwen 5 and 30 characters<br>";
+
+            }
+
+          ?>
 
 
 					<input type="submit" name="register_button" value="Register">

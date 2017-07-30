@@ -1,6 +1,9 @@
 <?php
-  include("includes/header.php");
 
+  //
+  include("_includes/header.php");
+
+  //
   $profile_id = $user['username'];
   $imgSrc = "";
   $result_path = "";
@@ -9,14 +12,24 @@
   /***********************************************************
   	0 - Remove The Temp image if it exists
   ***********************************************************/
-  	if (!isset($_POST['x']) && !isset($_FILES['image']['name']) ){
-  		//Delete users temp image
-  			$temppath = 'assets/images/profile_pics/'.$profile_id.'_temp.jpeg';
-  			if (file_exists ($temppath)){ @unlink($temppath); }
-  	}
 
+  //
+	if (!isset($_POST['x']) && !isset($_FILES['image']['name']) ) {
 
-  if(isset($_FILES['image']['name'])){
+		// Delete users temp image
+		$temppath = '_assets/images/profile_pics/'.$profile_id.'_temp.jpeg';
+
+    //
+		if (file_exists ($temppath)) {
+
+      @unlink($temppath);
+
+    }
+
+	}
+
+  //
+  if(isset($_FILES['image']['name'])) {
   /***********************************************************
   	1 - Upload Original Image To Server
   ***********************************************************/
@@ -28,7 +41,7 @@
   		$ImageType = @explode('/', $_FILES['image']['type']);
   		$type = $ImageType[1]; //file type
   	//Set Upload directory
-  		$uploaddir = 'assets/images/profile_pics'; // yOU need to update $_SERVER['DOCUMENT_ROOT'] in the PHP.ini file because it currently lists the wrong server name as "/Library/WebServer/Documents/..."/
+  		$uploaddir = '_assets/images/profile_pics'; // yOU need to update $_SERVER['DOCUMENT_ROOT'] in the PHP.ini file because it currently lists the wrong server name as "/Library/WebServer/Documents/..."/
   	//Set File name
   		$file_temp_name = $profile_id.'_original.'.md5(time()).'n'.$type; //the temp file name
   		$fullpath = $uploaddir."/".$file_temp_name; // the temp file path
@@ -36,12 +49,12 @@
   		$fullpath_2 = $uploaddir."/".$file_name; //for the final resized image
   	//Move the file to correct location
   		$move = move_uploaded_file($ImageTempName,$fullpath) ;
-  		chmod($fullpath, 0777);
+  		chmod($fullpath, 0755);
   		//Check for valid uplaod
   		if (!$move) {
   			die ('Your file did not upload successfully.');
   		} else {
-  			$imgSrc= "assets/images/profile_pics/".$file_name; // the image to display in crop area
+  			$imgSrc= "_assets/images/profile_pics/".$file_name; // the image to display in crop area
   			$msg= "Upload Complete!";  	//message to page
   			$src = $file_name;	 		//the file name to post from cropping form to the resize
   		}
@@ -90,7 +103,7 @@
   	//the file type posted
   		$type = $_POST['type'];
   	//the image src
-  		$src = 'assets/images/profile_pics/'.$_POST['src'];
+  		$src = '_assets/images/profile_pics/'.$_POST['src'];
   		$finalname = $profile_id.md5(time());
 
   	if($type == 'jpg' || $type == 'jpeg' || $type == 'JPG' || $type == 'JPEG'){
@@ -105,7 +118,7 @@
   			imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],
   			$targ_w,$targ_h,$_POST['w'],$_POST['h']);
   		//save the new cropped version
-  			imagejpeg($dst_r, "assets/images/profile_pics/".$finalname."n.jpeg", 90);
+  			imagejpeg($dst_r, "_assets/images/profile_pics/".$finalname."n.jpeg", 90);
 
   	}else if($type == 'png' || $type == 'PNG'){
 
@@ -119,7 +132,7 @@
   			imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],
   			$targ_w,$targ_h,$_POST['w'],$_POST['h']);
   		//save the new cropped version
-  			imagejpeg($dst_r, "assets/images/profile_pics/".$finalname."n.jpeg", 90);
+  			imagejpeg($dst_r, "_assets/images/profile_pics/".$finalname."n.jpeg", 90);
 
   	}else if($type == 'gif' || $type == 'GIF'){
 
@@ -133,7 +146,7 @@
   			imagecopyresampled($dst_r,$img_r,0,0,$_POST['x'],$_POST['y'],
   			$targ_w,$targ_h,$_POST['w'],$_POST['h']);
   		//save the new cropped version
-  			imagejpeg($dst_r, "assets/images/profile_pics/".$finalname."n.jpeg", 90);
+  			imagejpeg($dst_r, "_assets/images/profile_pics/".$finalname."n.jpeg", 90);
 
   	}
   		//free up memory
@@ -142,7 +155,7 @@
   			@ unlink($src); // delete the original upload
 
   		//return cropped image to page
-  		$result_path ="assets/images/profile_pics/".$finalname."n.jpeg";
+  		$result_path ="_assets/images/profile_pics/".$finalname."n.jpeg";
 
   		//Insert image into database
   		$insert_pic_query = mysqli_query($con, "UPDATE users SET profile_pic='$result_path' WHERE username='$userLoggedIn'");

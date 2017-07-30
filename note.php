@@ -22,19 +22,22 @@
 			 ?>
 			</a>
 			<br>
-			<?php echo "Posts: " . $user['num_posts']. "<br>";
+			<?php
+
+			echo "Notes: " . $user['num_notes']. "<br>";
 			echo "Likes: " . $user['num_likes'];
+
 			?>
 		</div>
 
 	</div>
 
 	<div class="main_column column" id="main_column">
-		<div class="posts_area">
+		<div class="notes_area">
 			<?php
-			
-				$post = new Post($con, $userLoggedIn);
-				$post->getSinglePost($id);
+
+				$note = new Note($con, $userLoggedIn);
+				$note->getSingleNote($id);
 
 			?>
 		</div>
